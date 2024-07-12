@@ -1,0 +1,8 @@
+apiVersion: v2
+name: sonarqube
+description: SonarQube for Prometheus
+version: 0.0.1
+dependencies:
+  - name: sonarqube
+    version: 10.6.0+3033
+    repository: https://SonarSource.github.io/helm-chart-sonarqube
