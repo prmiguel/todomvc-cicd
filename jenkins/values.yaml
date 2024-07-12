@@ -1,0 +1,4 @@
+jenkins:
+  controller:
+    admin:
+      password: admin
