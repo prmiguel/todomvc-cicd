@@ -1,0 +1,20 @@
+argo-cd:
+  crds:
+    install: false
+  configs:
+    secret:
+      argocdServerAdminPassword: "$2a$10$7ww6IcPsd4K47qy1TtIpdeltpA.1bO2c0GpNMVraXgDVx3vz0zt0a"
+    styles: |
+      img.sidebar__logo__character {
+        width: 60px !important;
+        content: url("https://todomvc.com/site-assets/logo-icon.png") !important;
+      }
+  dex:
+    enabled: false
+  notifications:
+    enabled: false
+  applicationSet:
+    enabled: false
+  server:
+    extraArgs:
+      - --insecure
