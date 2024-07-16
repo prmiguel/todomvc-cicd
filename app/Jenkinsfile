@@ -14,16 +14,16 @@ pipeline {
             }
         }
         stage("Build App") {
-                steps {
-                    sh '''
-                    docker run --rm -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/app/angular/src -e NG_CLI_ANALYTICS=ci -t node:lts sh -c "npm install && npm run build"
-                    '''
-                }
+            steps {
+                sh '''
+                docker run --rm -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/app/angular/src -e NG_CLI_ANALYTICS=ci -t node:lts sh -c "npm install && npm run build"
+                '''
+            }
             }
         stage("Docker Lint") {
             steps {
                 sh '''
-                docker run --rm -i -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/app/angular hadolint/hadolint < Dockerfile
+                docker run --rm -t -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/app/angular hadolint/hadolint /bin/hadolint Dockerfile
                 '''
             }
         }
