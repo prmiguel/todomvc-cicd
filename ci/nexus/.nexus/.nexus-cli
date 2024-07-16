@@ -1,0 +1,8 @@
+{
+    "api_version": "v1",
+    "groovy_enabled": true,
+    "password": "admin123",
+    "url": "http://nexus:8081/",
+    "username": "admin",
+    "x509_verify": false
+}

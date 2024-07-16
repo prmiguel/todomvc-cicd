@@ -1,0 +1,40 @@
+services:
+  nexus:
+    image: ghcr.io/prmiguel/todomvc-cicd-nexus:main
+    build: ./nexus
+    restart: always
+    networks:
+      - nexnet
+    ports:
+      - "8081:8081"
+      - "8083:8083"
+    healthcheck:
+          test: curl --fail http://localhost:8081/ || exit 1
+          interval: 40s
+          timeout: 30s
+          retries: 5
+          start_period: 60s
+  nexuscli:
+    image: thiagofigueiro/nexus3-cli
+    depends_on:
+      - nexus
+    networks:
+      - nexnet
+    # environment:
+    #   - NEXUS3_API_VERSION=v1
+    #   - NEXUS3_GROOVY_ENABLED=True
+    #   - NEXUS3_PASSWORD=admin123
+    #   - NEXUS3_URL=http://nexus:8081/
+    #   - NEXUS3_USERNAME=admin
+    #   - NEXUS3_X509_VERIFY=False
+    entrypoint: [""]
+    volumes:
+      - ./nexus/.nexus/.nexus-cli:/root/.nexus-cli
+    command: sh -c "
+        sleep 200 && \
+        /usr/local/bin/nexus3 repository create hosted docker --http-port 8083 devregistry && \
+        /usr/local/bin/nexus3 security realm activate DockerToken
+      "
+
+networks:
+  nexnet:

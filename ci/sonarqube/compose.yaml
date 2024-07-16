@@ -1,0 +1,44 @@
+version: "3"
+services:
+  sonarqube:
+    image: ghcr.io/prmiguel/todomvc-cicd-sonarqube:main
+    container_name: sonarqube
+    volumes:
+      - sonarqube_token:/data:ro
+    #   - sonarqube_data:/opt/sonarqube/data
+    #   - sonarqube_extensions:/opt/sonarqube/extensions
+    #   - sonarqube_logs:/opt/sonarqube/logs
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_WEB_SYSTEMPASSCODE: squ_728b8451db0e27e08e9c166636e3a4302b20809a
+    networks:
+      - sonarnet
+    healthcheck:
+          test: curl --fail http://localhost:9000/ || exit 1
+          interval: 40s
+          timeout: 30s
+          retries: 5
+          start_period: 60s
+  sonarqubecli:
+    image: dwdraju/alpine-curl-jq
+    depends_on:
+      - sonarqube
+    networks:
+      - sonarnet
+    volumes:
+      - sonarqube_token:/data:rw
+    command: bash -c "
+        sleep 200 && 
+        curl -u admin:admin 'http://sonarqube:9000/api/projects/create' --data-raw 'creationMode=manual&project=PIN1&name=PIN1&mainBranch=master' &&
+        curl -u admin:admin 'http://sonarqube:9000/api/v2/users-management/users' -H 'content-type:application/json' --data-raw '{\"email\":\"dev@code.com\",\"login\":\"dev\",\"name\":\"dev\",\"password\":\"dev\"}' &&
+        echo -n $(curl -s -u admin:admin 'http://sonarqube:9000/api/user_tokens/generate' --data-raw 'name=Analyze%20%22PIN1%22&type=PROJECT_ANALYSIS_TOKEN&projectKey=PIN1' | jq -r '.token') > /data/.token       
+      "
+volumes:
+  sonarqube_token:
+#   sonarqube_data:
+#   sonarqube_extensions:
+#   sonarqube_logs:
+
+networks:
+  sonarnet:

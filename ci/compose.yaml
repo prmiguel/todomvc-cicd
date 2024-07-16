@@ -1,0 +1,12 @@
+services:
+  jenkins:
+    networks:
+      - cinet
+  nexus:
+    networks:
+      - cinet
+  sonarqube:
+    networks:
+      - cinet
+networks:
+  cinet:
