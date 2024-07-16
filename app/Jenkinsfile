@@ -13,7 +13,7 @@ pipeline {
                 '''
             }
         }
-        stage("Build App") {
+    stage("Build App") {
             steps {
                 sh '''
                 docker run --rm -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/app/angular/src -e NG_CLI_ANALYTICS=ci -t node:lts sh -c "npm install && npm run build"
@@ -21,4 +21,25 @@ pipeline {
             }
         }
     }
+    stage("Docker Lint") {
+            steps {
+                sh '''
+                docker run --rm -i -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/app/angular hadolint/hadolint < Dockerfile
+                '''
+            }
+        }
+        stage("Image Build") {
+            steps {
+                sh '''
+                docker image build -f Dockerfile -t todomvc-app app/angular
+                '''
+            }
+        }
+        stage("Container Scanner") {
+            steps {
+                sh '''
+                docker run -t -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy image todomvc-app:latest
+                '''
+            }
+        }
 }
