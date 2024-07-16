@@ -41,5 +41,14 @@ pipeline {
                 '''
             }
         }
+        stage("Image Push") {
+            steps {
+                sh '''
+                docker login -u admin -p admin123 127.0.0.1:8083
+                docker tag todomvc-app:latest 127.0.0.1:8083/todomvc-app:latest
+                docker push 127.0.0.1:8083/todomvc-app:latest
+                '''
+            }
+        }
     }
 }
