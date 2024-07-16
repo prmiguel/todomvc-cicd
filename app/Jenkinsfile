@@ -30,7 +30,7 @@ pipeline {
         stage("Image Build") {
             steps {
                 sh '''
-                docker image build -f Dockerfile -t todomvc-app app/angular
+                docker image build -f app/angular/Dockerfile -t todomvc-app app/angular
                 '''
             }
         }
