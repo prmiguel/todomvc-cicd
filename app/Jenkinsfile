@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    
+    options {
+    timeout(time: 5, unit: 'MINUTES')
+  }
+    stages {
+        stage("Code Analysis") {
+            steps {
+                sh '''
+                S_TOKEN=$(docker exec -t sonarqube cat /data/.token)
+                docker run --rm -e SONAR_HOST_URL="http://sonarqube:9000" -e \"SONAR_SCANNER_OPTS=-Dsonar.projectKey=PIN1 -Dsonar.projectBaseDir=/jenkins_home/jobs/PIN1/workspace/app/angular/src\" -e SONAR_TOKEN="${S_TOKEN}" --network infrastructure_sonarnet -v infrastructure_jenkins_home:/jenkins_home sonarsource/sonar-scanner-cli
+                '''
+            }
+        }
+    }
+}
