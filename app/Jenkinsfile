@@ -19,7 +19,7 @@ pipeline {
                 docker run --rm -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/app/angular/src -e NG_CLI_ANALYTICS=ci -t node:lts sh -c "npm install && npm run build"
                 '''
             }
-            }
+        }
         stage("Docker Lint") {
             steps {
                 sh '''
@@ -38,6 +38,13 @@ pipeline {
             steps {
                 sh '''
                 docker run -t -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy image todomvc-app:latest
+                '''
+            }
+        }
+        stage("Run Tests") {
+            steps {
+                sh '''
+                docker run --rm -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/tests/e2e -t mcr.microsoft.com/playwright:v1.40.0-jammy sh -c "npm i && npx playwright install --with-deps && npx playwright test --trace on"
                 '''
             }
         }
