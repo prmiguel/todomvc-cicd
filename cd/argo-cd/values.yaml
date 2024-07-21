@@ -3,7 +3,7 @@ argo-cd:
     install: false
   configs:
     secret:
-      argocdServerAdminPassword: "$2a$10$7ww6IcPsd4K47qy1TtIpdeltpA.1bO2c0GpNMVraXgDVx3vz0zt0a"
+      argocdServerAdminPassword: "$2a$10$9j1DVJ75qq9TE1Oar9tn7.B5V0QnO7drpfhDa9FmukiP82cQSo6qm"
     styles: |
       img.sidebar__logo__character {
         width: 60px !important;
