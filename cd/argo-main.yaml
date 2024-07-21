@@ -8,7 +8,7 @@ spec:
     namespace: default
     server: 'https://kubernetes.default.svc'
   source:
-    path: argo-apps
+    path: cd/argo-apps
     repoURL: 'https://github.com/prmiguel/todomvc-cicd'
     targetRevision: HEAD
   sources: []
