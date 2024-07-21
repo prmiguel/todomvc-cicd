@@ -44,8 +44,8 @@ pipeline {
         stage("Run Tests") {
             steps {
                 sh '''
-                docker run --rm -d -p 8084:80 --name todomvc-app todomvc-app:latest
-                docker run --rm -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/tests/e2e -e PLAYWRIGHT_HTML_OPEN=never -t mcr.microsoft.com/playwright:v1.40.0-jammy sh -c "npm i && npx playwright install --with-deps && npx playwright test --trace on"
+                docker run --rm -d -p 8084:80 --network ci_cinet --name todomvc-app todomvc-app:latest
+                docker run --rm --network ci_cinet -v ci_jenkins_home:/jenkins_home -w /jenkins_home/jobs/PIN1/workspace/tests/e2e -e PLAYWRIGHT_HTML_OPEN=never -t mcr.microsoft.com/playwright:v1.40.0-jammy sh -c "npm i && npx playwright install --with-deps && npx playwright test --trace on"
                 docker rm -f todomvc-app
                 '''
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: './tests/e2e/playwright-report', reportFiles: 'index.html', reportName: 'E2E Tests', reportTitles: '', useWrapperFileDirectly: true])
