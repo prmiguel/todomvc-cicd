@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('https://demo.playwright.dev/todomvc');
+  await page.goto('https://8084-prmiguel-todomvccicd-7w3q9iipsvm.ws-us115.gitpod.io/');
 });
 
 const TODO_ITEMS = [
