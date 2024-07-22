@@ -1,0 +1,25 @@
+tasks:
+  - name: Pull Docker Images
+    before: |
+      docker pull ghcr.io/prmiguel/todomvc-cicd-jenkins:main
+      docker pull ghcr.io/prmiguel/todomvc-cicd-nexus:main
+      docker pull ghcr.io/prmiguel/todomvc-cicd-sonarqube:main
+      docker pull dwdraju/alpine-curl-jq
+      docker pull thiagofigueiro/nexus3-cli
+      docker pull sonarsource/sonar-scanner-cli
+      docker pull node:lts
+      docker pull hadolint/hadolint
+      docker pull bitnami/trivy
+      docker pull mcr.microsoft.com/playwright:v1.40.0-jammy
+  - name: Run CI Infrastructure
+    before: |
+      sudo chmod 666 /var/run/docker.sock
+      cd ci
+      docker compose -f compose.yml -f sonarqube/compose.yml -f nexus/compose.yml -f jenkins/compose.yml up -d
+      gp ports await 9000
+      gp ports await 8081
+      gp ports await 8080
+      echo "Setting up CI infrastructure"
+      sleep 210
+      docker ps
+      echo "CI infrastructure Ready"
