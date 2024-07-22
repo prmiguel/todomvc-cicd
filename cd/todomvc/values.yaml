@@ -1,2 +1,2 @@
 replicas: 2
-image: ghcr.io/prmiguel/todomvc-angular:main
+image: ghcr.io/prmiguel/todomvc-cicd-app:main
