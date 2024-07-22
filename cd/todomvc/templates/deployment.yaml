@@ -16,7 +16,7 @@ spec:
         app: todo-mvc
     spec:
       containers:
-      - image: ghcr.io/prmiguel/todomvc-angular:main
+      - image: {{ .Values.image }}
         name: todomvc-angular
         resources: {}
         ports:
