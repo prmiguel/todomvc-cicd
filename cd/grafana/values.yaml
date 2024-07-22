@@ -1,0 +1,3 @@
+grafana:
+  adminPassword: Admin*123.
+  adminUser: admin
