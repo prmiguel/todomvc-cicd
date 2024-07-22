@@ -1,5 +1,5 @@
 tasks:
-  - name: Pull Docker Images
+  - name: Run CI Infrastructure
     before: |
       docker pull ghcr.io/prmiguel/todomvc-cicd-jenkins:main
       docker pull ghcr.io/prmiguel/todomvc-cicd-nexus:main
@@ -11,8 +11,6 @@ tasks:
       docker pull hadolint/hadolint
       docker pull bitnami/trivy
       docker pull mcr.microsoft.com/playwright:v1.40.0-jammy
-  - name: Run CI Infrastructure
-    before: |
       sudo chmod 666 /var/run/docker.sock
       cd ci
       docker compose -f compose.yml -f sonarqube/compose.yml -f nexus/compose.yml -f jenkins/compose.yml up -d
