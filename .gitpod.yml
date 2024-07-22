@@ -13,7 +13,7 @@ tasks:
       docker pull mcr.microsoft.com/playwright:v1.40.0-jammy
       sudo chmod 666 /var/run/docker.sock
       cd ci
-      docker compose -f compose.yml -f sonarqube/compose.yml -f nexus/compose.yml -f jenkins/compose.yml up -d
+      docker compose -f compose.yaml -f sonarqube/compose.yaml -f nexus/compose.yaml -f jenkins/compose.yaml up -d
       gp ports await 9000
       gp ports await 8081
       gp ports await 8080
