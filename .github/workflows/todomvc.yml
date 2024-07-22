@@ -13,7 +13,7 @@ on:
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
     paths:
-      - ci/app/**
+      - app/angular/**
   pull_request:
     branches: [ "main" ]
 
