@@ -68,3 +68,9 @@ todomvc-access:
 
 todomvc-kill:
 	helm uninstall todomvc
+
+all-kill:
+	kubectl delete all -n default -l app=todo-mvc
+	kubectl delete all -n default -l app.kubernetes.io/instance=grafanaapp
+	kubectl delete all -n default -l app.kubernetes.io/instancejenkinsapp
+	kubectl delete all -n default -l app.kubernetes.io/instance=prometheusapp
