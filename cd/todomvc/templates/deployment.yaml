@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: todo-mvc
+  name: todo-mvc
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: todo-mvc
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: todo-mvc
+    spec:
+      containers:
+      - image: ghcr.io/prmiguel/todomvc-angular:main
+        name: todomvc-angular
+        resources: {}
+        ports:
+          - containerPort: 80
+status: {}
